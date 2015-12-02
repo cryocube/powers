@@ -10,20 +10,21 @@ import sys
 import sqlite3
 #
 #
-#q_type = input("Please select from the below menu something you would like to query:\\r
-#    [1] Power Name \\r
-#    [2] Tree Name \r
-#    [3] Type (Touch, Damage, Self, Mental, Other, Status, Mask, Passive, Sensory) \r
-#    [4] Meta Type \r
-#    [5] ST Only \r
-#    [6] Breachable Powers")
-#
 # class Menu: will also go here in time
 #
 class DB:
-    def __init__(self):
+    """Menu for selecting functions for how to return a power set.
+
+    """
+    
+    def __init__(self, db_name):
+        self.conn = sqlite3.connect(db_name)
+        self.c = conn.cursor()
+    def menu(self): #Do last
+
         pass
     def power_name(self):
+        
         pass
     def tree_name(self):
         pass
@@ -37,9 +38,8 @@ class DB:
         pass
 #
 #
-if __init__ = "__main__":
+if __name__ = "__main__":
+    db = DB('Powers_20151116.sqlite')
 # Database Connection
 # https://docs.python.org/3.5/library/sqlite3.html
 #
-    conn = sqlite3.connect('Powers_20151116.sqlite')
-
