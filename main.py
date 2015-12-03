@@ -31,11 +31,18 @@ class DB:
     def power_type(self):
         pass
     def meta_type(self):
-        pass
+        meta = input("Please type in a comma separated list each meta type you would like to see. None, Meta, Condition, Type, Counted")
+        meta_list = (("".join(meta.split())).split(','))
+        for selection in meta_list:
+            sel = (selection,)
+            for row in self.c.execute('SELECT power_name,type,meta,cost,call,text,st_only,breachable FROM powers WHERE meta=?', sel)
+
     def st_only(self):
-        pass
+        for row in self.c.execute("SELECT power_name,type,meta,cost,call,text,breachable FROM powers WHERE st_only =1")
+        print(row)
     def breach(self):
-        pass
+        for row in self.c.execute("SELECT power_name,type,meta,cost,call,text,st_only FROM powers WHERE breachable =1")
+        print(row)
 #
 #
 if __name__ = "__main__":
