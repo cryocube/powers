@@ -23,7 +23,7 @@ class DB_Functions:
     def power_name(self):
         name = input("Please type in the name of the Power you would like to see the information of.")
         power = (name.upper(),)
-        for row in self.c.execute('
+        for row in self.c.execute('''
         SELECT DISTINCT
             powers.power_name as Power,
             trees.tree_name as Tree,
@@ -34,7 +34,7 @@ class DB_Functions:
         join trees on trees.tree_id=innate_tree.tree_id
         join power_trees on power_trees.tree_id=trees.tree_id
         join powers on powers.power_id=power_trees.power_id
-        WHERE upper(powers.power_name) =?', power)   
+        WHERE upper(powers.power_name) =?''', power)   
             print(row)
     def tree_name(self):
         name = input("Please type in the name of the Tree you would like to see the powers of.")
