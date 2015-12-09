@@ -21,18 +21,7 @@ class DB_Functions:
     def power_name(self):
         pname = input("Please type in the name of the Power you would like to see the information of:  ")
         power = (pname.upper(),)
-        for row in self.c.execute('''
-        SELECT DISTINCT
-            powers.power_name as Power,
-            trees.tree_name as Tree,
-            power_trees.tier as Tree_Tier,
-            factions.subfaction as Splat
-        from innate_tree 
-        join factions on innate_tree.subfaction_id=factions.subfaction_id
-        join trees on trees.tree_id=innate_tree.tree_id
-        join power_trees on power_trees.tree_id=trees.tree_id
-        join powers on powers.power_id=power_trees.power_id
-        WHERE upper(powers.power_name) =?''', power):
+        for row in self.c.execute('''SELECT DISTINCT powers.power_name as Power, trees.tree_name as Tree, power_trees.tier as Tree_Tier, factions.subfaction as Splat from innate_tree join factions on innate_tree.subfaction_id=factions.subfaction_id join trees on trees.tree_id=innate_tree.tree_id join power_trees on power_trees.tree_id=trees.tree_id join powers on powers.power_id=power_trees.power_id WHERE upper(powers.power_name) =?''', power):
             print(row)
     def tree_name(self):
         tname = input("Please type in the name of the Tree you would like to see the powers of:  ")
@@ -76,17 +65,17 @@ class Menu:
     def __init__(self, db):
         self.db = db
     def selector(self, selection):
-        if selection == 1:
+        if selection == '1':
             self.db.power_name()
-        elif selection == 2:
+        elif selection == '2':
             self.db.tree_name()
-        elif selection == 3:
+        elif selection == '3':
             self.db.power_type()
-        elif selection == 4:
+        elif selection == '4':
             self.db.meta_type()
-        elif selection == 5:
+        elif selection == '5':
             self.db.st_only()
-        elif selection == 6:
+        elif selection == '6':
             self.db.breach()
         else:
             print("You have not selected a valid option.  Please select again.")
