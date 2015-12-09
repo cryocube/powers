@@ -26,18 +26,7 @@ class DB_Functions:
     def tree_name(self):
         tname = input("Please type in the name of the Tree you would like to see the powers of:  ")
         tree = (tname.upper(),)
-        for row in self.c.execute('''
-        SELECT DISTINCT
-            powers.power_name as Power,
-            trees.tree_name as Tree,
-            power_trees.tier as Tree_Tier,
-            factions.subfaction as Splat
-        from innate_tree 
-        join factions on innate_tree.subfaction_id=factions.subfaction_id
-        join trees on trees.tree_id=innate_tree.tree_id
-        join power_trees on power_trees.tree_id=trees.tree_id
-        join powers on powers.power_id=power_trees.power_id
-        WHERE upper(trees.tree_name) =?''', tree): 
+        for row in self.c.execute('''SELECT DISTINCT powers.power_name as Power, trees.tree_name as Tree, power_trees.tier as Tree_Tier, factions.subfaction as Splat from innate_tree join factions on innate_tree.subfaction_id=factions.subfaction_id join trees on trees.tree_id=innate_tree.tree_id join power_trees on power_trees.tree_id=trees.tree_id join powers on powers.power_id=power_trees.power_id WHERE upper(trees.tree_name) =?''', tree): 
             print(row)
     def power_type(self):
         pow_type = input("Please type in a comma separated list of each power type you would like to see.  Touch, Damage, Self, Mental, Other, Status, Mask, Passive, Sensory.:  ")
