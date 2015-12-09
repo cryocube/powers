@@ -13,16 +13,14 @@ import sqlite3
 # class Menu: will also go here in time
 #
 class DB_Functions:
-    """Functions to be called from the Menu.
-
-    """
+    """Functions to be called from the Menu."""
     
     def __init__(self, db_name):
         self.conn = sqlite3.connect(db_name)
         self.c = self.conn.cursor()
     def power_name(self):
-        name = input("Please type in the name of the Power you would like to see the information of:  ")
-        power = (name.upper(),)
+        pname = input("Please type in the name of the Power you would like to see the information of:  ")
+        power = (pname.upper(),)
         for row in self.c.execute('''
         SELECT DISTINCT
             powers.power_name as Power,
@@ -37,8 +35,8 @@ class DB_Functions:
         WHERE upper(powers.power_name) =?''', power):
             print(row)
     def tree_name(self):
-        name = input("Please type in the name of the Tree you would like to see the powers of:  ")
-        tree = (name.upper(),)
+        tname = input("Please type in the name of the Tree you would like to see the powers of:  ")
+        tree = (tname.upper(),)
         for row in self.c.execute('''
         SELECT DISTINCT
             powers.power_name as Power,
@@ -75,22 +73,24 @@ class DB_Functions:
 #
 #
 class Menu:
+    def __init__(self, db):
+        self.db = db
     def selector(self, selection):
         if selection == 1:
-            db.power_name()
+            self.db.power_name()
         elif selection == 2:
-            db.tree_name()
+            self.db.tree_name()
         elif selection == 3:
-            db.power_type()
+            self.db.power_type()
         elif selection == 4:
-            db.meta_type()
+            self.db.meta_type()
         elif selection == 5:
-            db.st_only()
+            self.db.st_only()
         elif selection == 6:
-            db.breach()
+            self.db.breach()
         else:
             print("You have not selected a valid option.  Please select again.")
-            print Menu().selector(selection)
+            self.selector(selection)
 #
 #
 if __name__ == "__main__":
@@ -98,4 +98,4 @@ if __name__ == "__main__":
 # Database Connection
 # https://docs.python.org/3.5/library/sqlite3.html
     selection = input("Please select what function you would like.\n\t[1] Search by name(s)\n\t[2] Search by Tree\n\t[3] Search by Power Type\n\t[4] Search by Power Meta\n\t[5] View all ST_Only power\n\t[6] View all powers that are Breachable\n\n")
-    Menu().selector(selection)
+    Menu(db).selector(selection)
