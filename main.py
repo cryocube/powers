@@ -21,7 +21,7 @@ class DB_Functions:
         self.conn = sqlite3.connect(db_name)
         self.c = self.conn.cursor()
     def power_name(self):
-        name = input("Please type in the name of the Power you would like to see the information of.")
+        name = input("Please type in the name of the Power you would like to see the information of:  ")
         power = (name.upper(),)
         for row in self.c.execute('''
         SELECT DISTINCT
@@ -37,7 +37,7 @@ class DB_Functions:
         WHERE upper(powers.power_name) =?''', power):
             print(row)
     def tree_name(self):
-        name = input("Please type in the name of the Tree you would like to see the powers of.")
+        name = input("Please type in the name of the Tree you would like to see the powers of:  ")
         tree = (name.upper(),)
         for row in self.c.execute('''
         SELECT DISTINCT
@@ -53,14 +53,14 @@ class DB_Functions:
         WHERE upper(trees.tree_name) =?''', tree): 
             print(row)
     def power_type(self):
-        pow_type = input("Please type in a comma separated list of each power type you would like to see.  Touch, Damage, Self, Mental, Other, Status, Mask, Passive, Sensory.")
+        pow_type = input("Please type in a comma separated list of each power type you would like to see.  Touch, Damage, Self, Mental, Other, Status, Mask, Passive, Sensory.:  ")
         type_list = (("".join(meta.split())).split(','))
         for selection in type_list:
             sel = (selection.upper(),)
             for row in self.c.execute('''SELECT DISTINCT power_name,type,meta,cost,call,text,st_only,breachable FROM powers WHERE upper(type)=?''', sel):
                 print(row)
     def meta_type(self):
-        meta = input("Please type in a comma separated list of each meta type you would like to see. None, Meta, Condition, Type, Counted.")
+        meta = input("Please type in a comma separated list of each meta type you would like to see. None, Meta, Condition, Type, Counted.:  ")
         meta_list = (("".join(meta.split())).split(','))
         for selection in meta_list:
             sel = (selection.upper(),)
@@ -75,27 +75,27 @@ class DB_Functions:
 #
 #
 class Menu:
-    def selector(self):
-        selection = input("Please select what function you would like.\n\t[1] Search by name(s)\n\t[2] Search by Tree\n\t[3] Search by Power Type\n\t[4] Search by Power Meta\n\t[5] View all ST_Only power\n\t[6] View all powers that are Breachable\n\n")
-        if selection == '1':
-            print DB_Functions().power_name()
-        elif selection == '2':
-            print DB_Functions().tree_name()
-        elif selection == '3':
-            print DB_Functions().power_type()
-        elif selection == '4':
-            print DB_Functions().meta_type()
-        elif selection == '5':
-            print DB_Functions().st_only()
-        elif selection == '6':
-            print DB_Functions().breach()
+    def selector(self, selection):
+        if selection == 1:
+            db.power_name()
+        elif selection == 2:
+            db.tree_name()
+        elif selection == 3:
+            db.power_type()
+        elif selection == 4:
+            db.meta_type()
+        elif selection == 5:
+            db.st_only()
+        elif selection == 6:
+            db.breach()
         else:
             print("You have not selected a valid option.  Please select again.")
-            print Menu().selector()
+            print Menu().selector(selection)
 #
 #
 if __name__ == "__main__":
     db = DB_Functions('Powers_20151116.sqlite')
 # Database Connection
 # https://docs.python.org/3.5/library/sqlite3.html
-#
+    selection = input("Please select what function you would like.\n\t[1] Search by name(s)\n\t[2] Search by Tree\n\t[3] Search by Power Type\n\t[4] Search by Power Meta\n\t[5] View all ST_Only power\n\t[6] View all powers that are Breachable\n\n")
+    Menu().selector(selection)
