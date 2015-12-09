@@ -12,17 +12,14 @@ import sqlite3
 #
 # class Menu: will also go here in time
 #
-class DB:
-    """Menu for selecting functions for how to return a power set.
+class DB_Functions:
+    """Functions to be called from the Menu.
 
     """
     
     def __init__(self, db_name):
         self.conn = sqlite3.connect(db_name)
         self.c = conn.cursor()
-    def menu(self): #Do last
-
-        pass
     def power_name(self):
         name = input("Please type in the name of the Power you would like to see the information of.")
         power = (name.upper(),)
@@ -77,8 +74,28 @@ class DB:
         print(row)
 #
 #
+class Menu:
+    def selector(self):
+        selection = input("Please select what function you would like.\n\t[1] Search by name(s)\n\t[2] Search by Tree\n\t[3] Search by Power Type\n\t[4] Search by Power Meta\n\t[5] View all ST_Only power\n\t[6] View all powers that are Breachable\n\n")
+        if selection = '1':
+            print DB_Functions().power_name()
+        elif selection = '2':
+            print DB_Functions().tree_name()
+        elif selection = '3':
+            print DB_Functions().power_type()
+        elif selection = '4':
+            print DB_Functions().meta_type()
+        elif selection = '5':
+            print DB_Functions().st_only()
+        elif selection = '6':
+            print DB_Functions().breach()
+        else:
+            print("You have not selected a valid option.  Please select again.")
+            print Menu().selector()
+#
+#
 if __name__ = "__main__":
-    db = DB('Powers_20151116.sqlite')
+    db = DB_Functions('Powers_20151116.sqlite')
 # Database Connection
 # https://docs.python.org/3.5/library/sqlite3.html
 #
