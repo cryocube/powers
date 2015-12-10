@@ -20,34 +20,40 @@ class DB_Functions:
         self.conn = sqlite3.connect(db_name)
         self.c = self.conn.cursor()
     def power_name(self):
-        pname = input("Please type in the name of the Power you would like to see the information of:  ")
+        query = '''SELECT DISTINCT powers.power_name as Power, trees.tree_name as Tree, power_trees.tier as Tree_Tier, factions.subfaction as Splat from innate_tree join factions on innate_tree.subfaction_id=factions.subfaction_id join trees on trees.tree_id=innate_tree.tree_id join power_trees on power_trees.tree_id=trees.tree_id join powers on powers.power_id=power_trees.power_id WHERE upper(powers.power_name) =?'''
+        name = input("Please type in the name of the Power you would like to see the information of:  ")
         power = (pname.upper(),)
-        for row in self.c.execute('''SELECT DISTINCT powers.power_name as Power, trees.tree_name as Tree, power_trees.tier as Tree_Tier, factions.subfaction as Splat from innate_tree join factions on innate_tree.subfaction_id=factions.subfaction_id join trees on trees.tree_id=innate_tree.tree_id join power_trees on power_trees.tree_id=trees.tree_id join powers on powers.power_id=power_trees.power_id WHERE upper(powers.power_name) =?''', power):
+        for row in self.c.execute(query, power):
             print(row)
     def tree_name(self):
+        query = '''SELECT DISTINCT powers.power_name as Power, trees.tree_name as Tree, power_trees.tier as Tree_Tier, factions.subfaction as Splat from innate_tree join factions on innate_tree.subfaction_id=factions.subfaction_id join trees on trees.tree_id=innate_tree.tree_id join power_trees on power_trees.tree_id=trees.tree_id join powers on powers.power_id=power_trees.power_id WHERE upper(trees.tree_name) =?'''
         tname = input("Please type in the name of the Tree you would like to see the powers of:  ")
         tree = (tname.upper(),)
-        for row in self.c.execute('''SELECT DISTINCT powers.power_name as Power, trees.tree_name as Tree, power_trees.tier as Tree_Tier, factions.subfaction as Splat from innate_tree join factions on innate_tree.subfaction_id=factions.subfaction_id join trees on trees.tree_id=innate_tree.tree_id join power_trees on power_trees.tree_id=trees.tree_id join powers on powers.power_id=power_trees.power_id WHERE upper(trees.tree_name) =?''', tree): 
+        for row in self.c.execute(query, tree): 
             print(row)
     def power_type(self):
+        query = '''SELECT DISTINCT power_name,type,meta,cost,call,text,st_only,breachable FROM powers WHERE upper(type)=?'''
         pow_type = input("Please type in a comma separated list of each power type you would like to see.  Touch, Damage, Self, Mental, Other, Status, Mask, Passive, Sensory.:  ")
         type_list = (("".join(pow_type.split())).split(','))
         for selection in type_list:
             sel = (selection.upper(),)
-            for row in self.c.execute('''SELECT DISTINCT power_name,type,meta,cost,call,text,st_only,breachable FROM powers WHERE upper(type)=?''', sel):
+            for row in self.c.execute(query, sel):
                 print(row)
     def meta_type(self):
+        query = '''SELECT DISTINCT power_name,type,meta,cost,call,text,st_only,breachable FROM powers WHERE upper(meta)=?'''
         meta = input("Please type in a comma separated list of each meta type you would like to see. None, Meta, Condition, Type, Counted.:  ")
         meta_list = (("".join(meta.split())).split(','))
         for selection in meta_list:
             sel = (selection.upper(),)
-            for row in self.c.execute('''SELECT DISTINCT power_name,type,meta,cost,call,text,st_only,breachable FROM powers WHERE upper(meta)=?''', sel):
+            for row in self.c.execute(query, sel):
                 print(row)
     def st_only(self):
-        for row in self.c.execute('''SELECT DISTINCT power_name,type,meta,cost,call,text,breachable FROM powers WHERE st_only =1'''):
+        query = '''SELECT DISTINCT power_name,type,meta,cost,call,text,breachable FROM powers WHERE st_only =1'''
+        for row in self.c.execute(query):
             print(row)
     def breach(self):
-        for row in self.c.execute('''SELECT DISTINCT power_name,type,meta,cost,call,text,st_only FROM powers WHERE breachable =1'''):
+        query = '''SELECT DISTINCT power_name,type,meta,cost,call,text,st_only FROM powers WHERE breachable =1'''
+        for row in self.c.execute(query):
             print(row)
 #
 #
