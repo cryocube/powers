@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Powers - Original Beginning Scope is to be able to query Powers from a SQLite DB
 # Potential to be used as a spring board for other offerings
 #
