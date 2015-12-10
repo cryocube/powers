@@ -11,7 +11,7 @@ import sys
 import sqlite3
 #
 #
-# class Menu: will also go here in time
+#
 #
 class DB_Functions:
     """Functions to be called from the Menu."""
@@ -60,6 +60,9 @@ class DB_Functions:
 class Menu:
     def __init__(self, db):
         self.db = db
+    def prompt(self):
+        selection = input("Please select what function you would like.\n\t[1] Search by name(s)\n\t[2] Search by Tree\n\t[3] Search by Power Type\n\t[4] Search by Power Meta\n\t[5] View all ST_Only power\n\t[6] View all powers that are Breachable\n\n")
+        return selection
     def selector(self, selection):
         if selection == '1':
             self.db.power_name()
@@ -75,13 +78,13 @@ class Menu:
             self.db.breach()
         else:
             print("You have not selected a valid option.  Please select again.")
-            selection = input("Please select what function you would like.\n\t[1] Search by name(s)\n\t[2] Search by Tree\n\t[3] Search by Power Type\n\t[4] Search by Power Meta\n\t[5] View all ST_Only power\n\t[6] View all powers that are Breachable\n\n")
-            self.selector(selection)
+            sel = Menu(db).prompt()
+            self.selector(sel)
 #
 #
 if __name__ == "__main__":
     db = DB_Functions('Powers_20151116.sqlite')
 # Database Connection
 # https://docs.python.org/3.5/library/sqlite3.html
-    selection = input("Please select what function you would like.\n\t[1] Search by name(s)\n\t[2] Search by Tree\n\t[3] Search by Power Type\n\t[4] Search by Power Meta\n\t[5] View all ST_Only power\n\t[6] View all powers that are Breachable\n\n")
-    Menu(db).selector(selection)
+    sel = Menu(db).prompt()
+    Menu(db).selector(sel)
