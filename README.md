@@ -16,7 +16,7 @@ At its root, the software is capabable of showing all unique instances of a powe
 Powers is designed using Python3 and SQLite.  
 
 ### Stage 1 To Do List: The De-Brittling
-* [ ] Break out SQL queries to separate Variable
+* [X] Break out SQL queries to separate Variable
 * [ ] Input Sanitization
 * [ ] Values for Power Name and Tree Name to be 'like'
 * [ ] Validation Dictionary for Type and Meta Type
