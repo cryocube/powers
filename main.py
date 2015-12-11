@@ -25,11 +25,17 @@ class DB_Functions:
         pname = input("Please type in the names of the Powers (if it is two words, replace the space with a _) you would like to see the information of, in a comma separated list:  ")
         proc_pname = (Sanitizer().sanitize_pname(pname)).lower()
         pow_list = ("".join(proc_pname.split())).split(',')
-        print("\n\nINTERMEDIATE pow_list\n\n" + str(pow_list))
         pow_list = [v for v in pow_list if v in names]
-        print("Displaying all text for: " + str(pow_list))
+        print("\n\nDisplaying all text for: " + str(pow_list) + "\n\n")
         for v in pow_list:
-            power = ((str(v).upper()),)
+            vstring = str(v)
+            proc_vstring = str()
+            for c in vstring:
+                if ord(c) == 95:
+                    proc_vstring += ' '
+                else:
+                    proc_vstring += c
+            power = ((str(proc_vstring).upper()),)
             print(str(power))
             for row in self.c.execute(query, power):
                 print(row)
