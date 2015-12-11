@@ -17,9 +17,9 @@ Powers is designed using Python3 and SQLite.
 
 ### Stage 1 To Do List: The De-Brittling
 * [X] Break out SQL queries to separate Variable
-* [ ] Input Sanitization
+* [ ] Input Sanitization  ------ WIP
 * [ ] Values for Power Name and Tree Name to be 'like'
-* [ ] Validation Dictionary for Type and Meta Type
+* [X] Validation Dictionary for Type and Meta Type
 * [ ] Transition to SQL Alchemy for more dynamism
 
 ### Stage 2 To Do List: Look Ma! NO HANDS!
