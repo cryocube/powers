@@ -41,11 +41,24 @@ class DB_Functions:
                 print(row)
     def tree_name(self):
         query = '''SELECT DISTINCT powers.power_name as Power, trees.tree_name as Tree, power_trees.tier as Tree_Tier, factions.subfaction as Splat from innate_tree join factions on innate_tree.subfaction_id=factions.subfaction_id join trees on trees.tree_id=innate_tree.tree_id join power_trees on power_trees.tree_id=trees.tree_id join powers on powers.power_id=power_trees.power_id WHERE upper(trees.tree_name) =?'''
-        tname = input("Please type in the name of the Tree you would like to see the powers of:  ")
-        proc_tname = Sanitizer().sanitize_input(tname)
-        tree = (proc_tname.upper(),)
-        for row in self.c.execute(query, tree):
-            print(row)
+        tnamelist = ("animal", "body", "curse", "healer", "perception", "mind", "patterns", "protection", "spirit", "warrior", "ahl-i-batin", "messianic_voices", "old_faith", "order_of_hermes", "spirit_talkers", "valdaermen", "veneficti", "enticer", "ferectori", "gorehound", "toad", "animalism", "auspex", "celerity", "chimerstry", "daimoinon", "deimos", "dementation", "dominate", "fortitude", "mortis", "mytherceria", "necromancy", "obfuscate", "obtenebration", "potence", "presence", "protean", "quietus", "serpentis", "valeren_healer", "valeren_warrior", "vicissitude", "visceratika", "thaumaturgy:_creo_ignem", "thaumaturgy:_rego_aquam", "thaumaturgy:_rego_vitae", "dark_thaumaturgy:_path_of_the_defiler", "dark_thaumaturgy:_rego_dolor", "dark_thaumaturgy:_rego_manes", "dark_thaumaturgy:_rego_pestes", "dark_thaumaturgy:_rego_phobos", "homid", "metis", "lupus", "ahroun", "galliard", "philodox", "ragabash", "theurge", "black_furies", "bone_gnawers", "children_of_gaia", "fenrir", "fiana", "red_talons", "shadow_lords", "silent_striders", "silver_fangs", "warders_of_man", "bagheera", "bubasti", "ceilican", "swara", "ananasi", "corax", "ratkin", "corruption", "cunning", "defiling", "strength", "argos", "castigate", "embody", "fatalism", "flux", "inhabit", "intimation", "keening", "lifeweb", "mnemosynis", "moliate", "outrage", "pandemonium", "phantasm", "puppetry", "usury", "contaminate", "hive_mind", "larceny", "maleficence", "tempest_weaving", "black_spiral_dancer")
+        tname = input("Please type in the names of the Trees you would like to see the powers of:  ")
+        proc_tname = (Sanitizer().sanitize_tname(tname)).lower()
+        tree_list = ("".join(proc_tname.split())).split(',')
+        tree_list = [v for v in tree_list if v in tnamelist]
+        print("\n\nDisplaying the following Trees: " + str(tree_list) + "\n\n")
+        for v in tree_list:
+            vstring = str(v)
+            proc_vstring = str()
+            for c in vstring:
+                if ord(c) == 95:
+                    proc_vstring += ' '
+                else:
+                    proc_vstring += c
+            tree = ((str(proc_vstring).upper()),)
+            print(str(tree))
+            for row in self.c.execute(query, tree):
+                print(row)
     def power_type(self):
         query = '''SELECT DISTINCT power_name,type,meta,cost,call,text,st_only,breachable FROM powers WHERE upper(type)=?'''
         types = ('touch', 'damage', 'self', 'mental', 'other', 'status', 'mask', 'passive', 'sensory')
@@ -128,10 +141,20 @@ class Sanitizer:
             else:
                 string += ''
         return string
+    def sanitize_tname(self, raw_string):
+        string = str()
+        slist = list()
+        for c in raw_string:
+            if ord(c) == 45 or ord(c) == 39 or ord(c) == 95 or ord(c) == 32 or ord(c) == 44 or 48<=ord(c)<=57 or 65<=ord(c)<=90 or 97<=ord(c)<=122:
+                string += c
+            else:
+                string += ''
+        return string
+#
 #
 #
 if __name__ == "__main__":
-    db = DB_Functions('Powers_20151116.sqlite')
+    db = DB_Functions('powers.sqlite')
 # Database Connection
 # https://docs.python.org/3.5/library/sqlite3.html
     sel = Menu(db).prompt()
