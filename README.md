@@ -18,14 +18,18 @@ Powers is designed using Python3 and SQLite.
 ### Abandoned Features
 * Values for Power Name and Tree Name to be 'like' - Will be superceeded by dynamic query creation
 
-### Stage 1 To Do List: The De-Brittling
+### Stage 1 To Do List: The De-Brittling  [ACHIEVED WITH AUTHORITY]
 * [X] Break out SQL queries to separate Variable
 * [X] Input Sanitization
 * [X] Validation Dictionary for Type and Meta Type
-* [ ] Transition to SQL Alchemy for more dynamism
 
 ### Stage 2 To Do List: Look Ma! NO HANDS!
 * [ ] Convert to web version using Bottle or Flask
+
+### Stage 3: Moar Bendy
+* [ ] Transition to SQL Alchemy for more dynamism
+
+### Stage 4: Share the load
 * [ ] Demo to Org
 
 ### Long Term Software Goals
