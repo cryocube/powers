@@ -15,10 +15,12 @@ At its root, the software is capabable of showing all unique instances of a powe
 ## Backend
 Powers is designed using Python3 and SQLite.  
 
+### Abandoned Features
+* Values for Power Name and Tree Name to be 'like' - Will be superceeded by dynamic query creation
+
 ### Stage 1 To Do List: The De-Brittling
 * [X] Break out SQL queries to separate Variable
-* [ ] Input Sanitization  ------ WIP
-* [ ] Values for Power Name and Tree Name to be 'like'
+* [X] Input Sanitization
 * [X] Validation Dictionary for Type and Meta Type
 * [ ] Transition to SQL Alchemy for more dynamism
 
