@@ -100,7 +100,7 @@ class Menu:
     def __init__(self, db):
         self.db = db
     def prompt(self):
-        selection = input("Please select what function you would like.\n\t[1] Search by name(s)\n\t[2] Search by Tree\n\t[3] Search by Power Type\n\t[4] Search by Power Meta\n\t[5] View all ST_Only power\n\t[6] View all powers that are Breachable\n\n")
+        selection = input("Please select what function you would like.\n\t[1] Search by name(s) -- returns only innate paths\n\t[2] Search by Tree\n\t[3] Search by Power Type\n\t[4] Search by Power Meta\n\t[5] View all ST_Only power\n\t[6] View all powers that are Breachable\n\n")
         return selection
     def selector(self, selection):
         if selection == '1':
