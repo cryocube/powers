@@ -23,17 +23,5 @@ Powers is designed using Python3 and SQLite.
 * [X] Input Sanitization
 * [X] Validation Dictionary for Type and Meta Type
 
-### Stage 2 To Do List: Look Ma! NO HANDS!
-* [ ] Convert to web version using Bottle or Flask
-
-### Stage 3: Moar Bendy
-* [ ] Transition to SQL Alchemy for more dynamism
-
-### Stage 4: Share the load
-* [ ] Demo to Org
-
-### Long Term Software Goals
-* [ ] Ability to enter a number of powers and get a list of 3x5 power cards printed for quick in game reference
-* [ ] GUI on Web
-* [ ] Dynamic Query Generation
-* [ ] A Pony
+### Further work
+* continues via https://github.com/cryocube/bottled_powers.git
