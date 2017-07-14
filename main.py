@@ -9,9 +9,10 @@
 #
 import sys
 import sqlite3
-import PyPDF2
+from docx import Document
 #
-#
+# Global Objects
+names = ("absolution","aggravated_1","aggravated_claws","appear","avert","avoidance","balefire","beast_mind","black_ichor","body_wrack","break_attunement","brittle_bones","brutal_strike","clawed_form","cleanse","cloak","cloak_gathering","cloak_sight","cognizance","conditioning","confusion","control_body","control_voice","corrupted_powers","craving","dark_sword","daze","decay","derange","despair","detect_fetter","detect_taint","disable","disarm","disembodied","disquiet","dreamshape","endure","entrancement","exorcism","expel_corpus","fabricate_armor","fast_healing","fetter_consumption","fetter_creation","fire_2","fire_4","fire_sword","forgetful_mind","form_of_vapor","frenzy","frenzy_control","gauntlet_walk","give_energy","god's_grace","grant_power","hallucination","hasty_escape","healing_touch","health_exchange","hellborn_investiture","hero's_stand","hidden_taint","hide_of_the_wyrm","horrid_reality","hypnotism","imitate","induce_catharsis","induce_sin","insight","leech_of_fear","light_sword","majesty","mask_of_a_thousand_faces","materialize","meditate","meld","might","mimic","monsters","move_object","obedience","paralyze","passion","pathos_exchange","pathos_investment","pence_from_heaven","poison_immunity","possession","powerful_form","purify","ranged_2","ranged_4","razor_claws","read_magic","realm_grasp","release_spirit","rend_the_lifeweb","resilience","resist_gauntlet","resist_taint","restore_essence","revive","root","sanctuary","scion_of_evil","secret_angst","sense_amaranth","sense_confidence","sense_demon","sense_desire","sense_emotion","sense_essence","sense_faction","sense_fetter","sense_gnosis","sense_health","sense_item","sense_maximum_health","sense_mental","sense_patron","sense_power","sense_shadow","sense_spirit","sense_subfaction","sense_vitae","serenity","shadow_coax","shatter","shunt","silence","silver_armor","silver_claws","silver_tongue","smell_fear","snarl","song_of_rage","spirit_drain","stonehand_punch","strength","subjugate","taint","taunt","telepathy","tentacles","terror","test_generation","test_oath","totemic_form","tough_form","toughness","true_form","umbra_drain","umbra_sight","umbra_strike","vengeance_of_samiel","venom","visions","weaponry","wither","withstand","woadling","wounding_lies")
 #
 #
 class DB_Functions:
@@ -20,9 +21,35 @@ class DB_Functions:
     def __init__(self, db_name):
         self.conn = sqlite3.connect(db_name)
         self.c = self.conn.cursor()
+    def ref_list(self):
+        power_query = '''SELECT DISTINCT powers.power_name as Power, powers.type as Type, powers.meta as Meta, powers.cost as Cost, powers.call as Call, powers.text as Text, powers.breachable as Breach, powers.st_only as ST_Power from powers WHERE upper(powers.power_name) =?'''
+        global names
+        pname = input("Please type in the names of the Powers (if it is two words, replace the space with a _) you would like to see the information of, in a comma separated list:  ")
+        proc_pname = (Sanitizer().sanitize_ptname(pname)).lower()
+        pow_list = ("".join(proc_pname.split())).split(',')
+        pow_list = [v for v in pow_list if v in names]
+        print("\n\nDisplaying power entries for: " + str(pow_list) + "\n\n")
+        for v in pow_list:
+            vstring = str(v)
+            proc_vstring = str()
+            for c in vstring:
+                if ord(c) == 95: 
+                    proc_vstring += ' '
+                else:
+                    proc_vstring += c
+            power = ((str(proc_vstring).upper()),)
+            print(str(power))
+            document = Document()
+            for row in self.c.execute(power_query, power):
+# CURRENTLY THIS IS NOT WORKING.  FILE IS OPENED AND SAVED BUT NOTHING GOES INTO IT.
+# MASSAGE DATA
+                raw = print(row)
+                print(raw)
+                document.add_paragraph(raw)
+            document.save('test.docx')
     def power_name(self):
         query = '''SELECT DISTINCT powers.power_name as Power, trees.tree_name as Tree, power_trees.tier as Tree_Tier, factions.subfaction as Splat from innate_tree join factions on innate_tree.subfaction_id=factions.subfaction_id join trees on trees.tree_id=innate_tree.tree_id join power_trees on power_trees.tree_id=trees.tree_id join powers on powers.power_id=power_trees.power_id WHERE upper(powers.power_name) =?'''
-        names = ("absolution","aggravated_1","aggravated_claws","appear","avert","avoidance","balefire","beast_mind","black_ichor","body_wrack","break_attunement","brittle_bones","brutal_strike","clawed_form","cleanse","cloak","cloak_gathering","cloak_sight","cognizance","conditioning","confusion","control_body","control_voice","corrupted_powers","craving","dark_sword","daze","decay","derange","despair","detect_fetter","detect_taint","disable","disarm","disembodied","disquiet","dreamshape","endure","entrancement","exorcism","expel_corpus","fabricate_armor","fast_healing","fetter_consumption","fetter_creation","fire_2","fire_4","fire_sword","forgetful_mind","form_of_vapor","frenzy","frenzy_control","gauntlet_walk","give_energy","god's_grace","grant_power","hallucination","hasty_escape","healing_touch","health_exchange","hellborn_investiture","hero's_stand","hidden_taint","hide_of_the_wyrm","horrid_reality","hypnotism","imitate","induce_catharsis","induce_sin","insight","leech_of_fear","light_sword","majesty","mask_of_a_thousand_faces","materialize","meditate","meld","might","mimic","monsters","move_object","obedience","paralyze","passion","pathos_exchange","pathos_investment","pence_from_heaven","poison_immunity","possession","powerful_form","purify","ranged_2","ranged_4","razor_claws","read_magic","realm_grasp","release_spirit","rend_the_lifeweb","resilience","resist_gauntlet","resist_taint","restore_essence","revive","root","sanctuary","scion_of_evil","secret_angst","sense_amaranth","sense_confidence","sense_demon","sense_desire","sense_emotion","sense_essence","sense_faction","sense_fetter","sense_gnosis","sense_health","sense_item","sense_maximum_health","sense_mental","sense_patron","sense_power","sense_shadow","sense_spirit","sense_subfaction","sense_vitae","serenity","shadow_coax","shatter","shunt","silence","silver_armor","silver_claws","silver_tongue","smell_fear","snarl","song_of_rage","spirit_drain","stonehand_punch","strength","subjugate","taint","taunt","telepathy","tentacles","terror","test_generation","test_oath","totemic_form","tough_form","toughness","true_form","umbra_drain","umbra_sight","umbra_strike","vengeance_of_samiel","venom","visions","weaponry","wither","withstand","woadling","wounding_lies")
+        global names
         pname = input("Please type in the names of the Powers (if it is two words, replace the space with a _) you would like to see the information of, in a comma separated list:  ")
         proc_pname = (Sanitizer().sanitize_ptname(pname)).lower()
         pow_list = ("".join(proc_pname.split())).split(',')
@@ -145,6 +172,8 @@ class Sanitizer:
             else:
                 string += ''
         return string
+#
+#
 #
 #
 if __name__ == "__main__":
